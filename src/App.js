@@ -5,16 +5,17 @@ import { withRouter, Switch, Route } from "react-router-dom";
 import * as ROUTES from "./utils/routes";
 import MainPage from "./components/main";
 import SignupPage from "./components/signup";
+import { Paper } from "@material-ui/core";
 
 function App(props) {
   return (
-    <div>
+    <Paper>
       <Switch>
         <Route path={ROUTES.MAIN} component={MainPage} exact />
         <Route path={ROUTES.SIGN_IN} component={LoginPage} exact />
         <Route path={ROUTES.SIGN_UP} component={SignupPage} exact />
       </Switch>
-    </div>
+    </Paper>
   );
 }
 
