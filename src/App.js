@@ -1,24 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import LoginPage from "./components/login";
+import { withFirebase } from "./components/firebase";
+import { withRouter, Switch, Route } from "react-router-dom";
+import * as ROUTES from "./utils/routes";
+import MainPage from "./components/main";
+import SignupPage from "./components/signup";
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Switch>
+        <Route path={ROUTES.MAIN} component={MainPage} exact />
+        <Route path={ROUTES.SIGN_IN} component={LoginPage} exact />
+        <Route path={ROUTES.SIGN_UP} component={SignupPage} exact />
+      </Switch>
     </div>
   );
 }
