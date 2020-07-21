@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,7 +20,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
+const useStyle = makeStyles((theme) => ({
+  datePicker: {
+    width: "100% !important",
+    backgroundColor: "green",
+    display: "block",
+  },
+}));
+
 const DialogAddProject = ({ open, setOpen }) => {
+  const classes = useStyle();
   const [project, setProject] = useState({
     name: "",
     description: "",
@@ -61,7 +71,7 @@ const DialogAddProject = ({ open, setOpen }) => {
         <DatePicker
           selected={project.start_date}
           onChange={handleStartDateChange}
-          style={{ width: "100%" }}
+          className={classes.datePicker}
         />
       </DialogContent>
       <DialogActions>
