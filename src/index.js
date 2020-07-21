@@ -20,9 +20,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <FirebaseContext.Provider value={new Firebase()}>
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
+        <App />
       </FirebaseContext.Provider>
     </Router>
   </Provider>,

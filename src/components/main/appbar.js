@@ -1,10 +1,24 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { AppBar, Typography, Toolbar, Grid, Button } from "@material-ui/core";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+
+import { withFirebase } from "../firebase";
+
+import {
+  AppBar,
+  Typography,
+  Toolbar,
+  Grid,
+  Button,
+  Avatar,
+  IconButton,
+} from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 
 import * as ROUTES from "../../utils/routes";
+
+import { connect } from "react-redux";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -15,7 +29,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-const MyAppBar = ({ branding, history }) => {
+const MyAppBar = ({ branding, history, authUser, firebase }) => {
   const classes = useStyle();
 
   const handleLogin = (e) => {
@@ -24,6 +38,14 @@ const MyAppBar = ({ branding, history }) => {
 
   const handleSignup = (e) => {
     history.push(ROUTES.SIGN_UP);
+  };
+
+  const handleLogout = () => {
+    firebase.doSignOut();
+  };
+
+  const handleWebClick = () => {
+    history.push(ROUTES.WEB);
   };
   return (
     <AppBar position="fixed">
@@ -36,18 +58,45 @@ const MyAppBar = ({ branding, history }) => {
             <Button color="inherit">BBB</Button>
           </Grid>
 
-          <Grid item xs={3} container direction="row-reverse">
-            <Button color="inherit" onClick={handleLogin}>
-              Login
-            </Button>
-            <Button color="inherit" onClick={handleSignup}>
-              Signup
-            </Button>
-          </Grid>
+          {authUser ? (
+            <Grid
+              item
+              xs={3}
+              container
+              direction="row-reverse"
+              alignItems="center"
+            >
+              <IconButton>
+                <MoreVertIcon fontSize="large" style={{ color: "#fff" }} />
+              </IconButton>
+              <Avatar src={authUser.image} />
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+              <Button color="inherit" onClick={handleWebClick}>
+                Web
+              </Button>
+            </Grid>
+          ) : (
+            <Grid item xs={3} container direction="row-reverse">
+              <Button color="inherit" onClick={handleLogin}>
+                Login
+              </Button>
+              <Button color="inherit" onClick={handleSignup}>
+                Signup
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </Toolbar>
     </AppBar>
   );
 };
 
-export default withRouter(MyAppBar);
+const mapStateToProps = (state) => {
+  return {
+    ...state,
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(withFirebase(MyAppBar)));

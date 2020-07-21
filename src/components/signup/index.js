@@ -2,7 +2,11 @@ import React, { useState } from "react";
 
 import * as EmailValidator from "email-validator";
 import { withRouter } from "react-router-dom";
-import { SIGN_IN } from "../../utils/routes";
+import { SIGN_IN, SIGN_UP } from "../../utils/routes";
+import { withFirebase } from "../firebase";
+
+import { connect } from "react-redux";
+import { registerUser } from "../../actions/user_action";
 
 import {
   Grid,
@@ -19,6 +23,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { orange, blue, red } from "@material-ui/core/colors";
 import { EmailRounded, LockRounded, Facebook } from "@material-ui/icons";
+import MySnackBar from "../helpers/my_snacbar";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -53,6 +58,11 @@ const useStyle = makeStyles((theme) => ({
 const SignupPage = (props) => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [err, setErr] = useState({ error: false, message: "", fieldId: 0 });
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    severity: "success",
+    message: "",
+  });
   const classes = useStyle();
 
   const handleSignup = (e) => {
@@ -79,6 +89,22 @@ const SignupPage = (props) => {
     } else {
       console.log("Called Else");
       setErr({ error: false, message: "", fieldId: 0 });
+
+      props.firebase
+        .createUserWithEmailAndPassword(user.email, user.password)
+        .then((result) => {
+          props.firebase.doSendEmailVerification();
+          let usr = {
+            name: result.user.displayName,
+            email: result.user.email,
+            image: result.user.photoURL,
+            contact: result.user.phoneNumber | "",
+          };
+          props.registerUser(usr, props.firebase);
+        })
+        .catch((err) => {
+          setSnackbar({ open: true, message: err.message, severity: "error" });
+        });
     }
   };
 
@@ -90,6 +116,14 @@ const SignupPage = (props) => {
 
   const handleLogin = (e) => {
     props.history.push(SIGN_IN);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbar({
+      open: false,
+      severity: "success",
+      message: "",
+    });
   };
 
   return (
@@ -185,9 +219,26 @@ const SignupPage = (props) => {
             </Grid>
           </Card>
         </Grid>
+
+        <MySnackBar snackbar={snackbar} handleClose={handleSnackbarClose} />
       </Grid>
     </Paper>
   );
 };
 
-export default withRouter(SignupPage);
+const mapStateToProps = (state) => {
+  return {
+    ...state,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    registerUser: (user, firebase) => dispatch(registerUser(user, firebase)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(withFirebase(SignupPage)));

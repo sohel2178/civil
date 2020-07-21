@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import * as EmailValidator from "email-validator";
 import { withRouter } from "react-router-dom";
-import { SIGN_UP } from "../../utils/routes";
+import { withFirebase } from "../firebase";
+import { SIGN_UP, MAIN } from "../../utils/routes";
 
 import {
   Grid,
@@ -85,6 +86,11 @@ const LoginPage = (props) => {
     } else {
       console.log("Called Else");
       setErr({ error: false, message: "", fieldId: 0 });
+
+      props.firebase
+        .doSignInWithEmailAndPassword(user.email, user.password)
+        .then((user) => props.history.push(MAIN))
+        .catch((err) => console.log(err));
     }
   };
 
@@ -211,4 +217,4 @@ const LoginPage = (props) => {
   );
 };
 
-export default withRouter(LoginPage);
+export default withRouter(withFirebase(LoginPage));
