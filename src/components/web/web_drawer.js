@@ -1,7 +1,23 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Drawer, List, Grid, Avatar, Typography } from "@material-ui/core";
+import {
+  Drawer,
+  List,
+  Grid,
+  Avatar,
+  Typography,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Divider,
+} from "@material-ui/core";
+import { Home, Person } from "@material-ui/icons";
+
+const drawerList = [
+  { label: "Home", icon: Home },
+  { label: "Profile", icon: Person },
+];
 
 const useStyle = makeStyles((theme) => ({
   drawer: {
@@ -14,7 +30,13 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-const WebDrawer = ({ open, handleClose, authUser }) => {
+const WebDrawer = ({
+  open,
+  handleClose,
+  authUser,
+  handleItemClick,
+  selected,
+}) => {
   console.log(authUser, "Auth User");
   const classes = useStyle();
   return (
@@ -37,7 +59,20 @@ const WebDrawer = ({ open, handleClose, authUser }) => {
             {authUser ? authUser.email : "not"}
           </Typography>
         </Grid>
-        <Grid item>HHHHHH</Grid>
+        <List>
+          {drawerList.map((item, index) => (
+            <ListItem
+              button
+              key={index}
+              divider
+              onClick={() => handleItemClick(index)}
+              selected={selected === index}
+            >
+              <ListItemIcon>{<item.icon color="primary" />}</ListItemIcon>
+              <ListItemText>{item.label}</ListItemText>
+            </ListItem>
+          ))}
+        </List>
       </Grid>
     </Drawer>
   );

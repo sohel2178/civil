@@ -4,14 +4,17 @@ import WebDrawer from "./web_drawer";
 
 import { connect } from "react-redux";
 import { withFirebase } from "../firebase";
-import { withRouter } from "react-router-dom";
+import { withRouter, Switch, Route } from "react-router-dom";
 
 import { getAuthUser } from "../../actions/auth_user_action";
 
-import { MAIN } from "../../utils/routes";
+import { MAIN, WEB, PROFILE } from "../../utils/routes";
+import UserProjectsPage from "./projects/user_projects";
+import ProfilePage from "./profile";
 
 const WebPage = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectItem, setSelectedItem] = useState(0);
 
   const stopListener = (listener) => listener();
 
@@ -38,13 +41,27 @@ const WebPage = (props) => {
   const closeDrawer = () => {
     setDrawerOpen(false);
   };
+
+  const loadComponent = () => {
+    switch (selectItem) {
+      case 0:
+        return <UserProjectsPage />;
+      case 1:
+        return <ProfilePage />;
+      default:
+        return <UserProjectsPage />;
+    }
+  };
   return (
     <div>
-      <WebAppBar menuClick={menuClick} />
+      <WebAppBar menuClick={menuClick} selected={selectItem} />
+      <div style={{ height: "100vh" }}>{loadComponent()}</div>
       <WebDrawer
         open={drawerOpen}
         handleClose={closeDrawer}
         authUser={props.authUser}
+        handleItemClick={setSelectedItem}
+        selected={selectItem}
       />
     </div>
   );
