@@ -4,13 +4,14 @@ import WebDrawer from "./web_drawer";
 
 import { connect } from "react-redux";
 import { withFirebase } from "../firebase";
-import { withRouter, Switch, Route } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { getAuthUser } from "../../actions/auth_user_action";
 
-import { MAIN, WEB, PROFILE } from "../../utils/routes";
+import { MAIN } from "../../utils/routes";
 import UserProjectsPage from "./projects/user_projects";
 import ProfilePage from "./profile";
+import FinancePage from "./projects/finance";
 
 const WebPage = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -21,7 +22,6 @@ const WebPage = (props) => {
   useEffect(() => {
     const listener = props.firebase.auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
         if (user.emailVerified) {
           props.getAuthUser(user, props.firebase);
         } else {
@@ -45,17 +45,21 @@ const WebPage = (props) => {
   const loadComponent = () => {
     switch (selectItem) {
       case 0:
-        return <UserProjectsPage />;
+        return <UserProjectsPage setSelected={setSelectedItem} />;
       case 1:
         return <ProfilePage />;
+      case 2:
+        return <FinancePage />;
       default:
         return <UserProjectsPage />;
     }
   };
   return (
-    <div>
+    <div style={{ display: "flex", flexFlow: "column", height: "100vh" }}>
       <WebAppBar menuClick={menuClick} selected={selectItem} />
-      <div style={{ height: "100vh" }}>{loadComponent()}</div>
+      {props.authUser ? (
+        <div style={{ flex: "1 1 auto" }}>{loadComponent()}</div>
+      ) : null}
       <WebDrawer
         open={drawerOpen}
         handleClose={closeDrawer}

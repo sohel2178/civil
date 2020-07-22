@@ -6,7 +6,8 @@ export const GET_USER = "GET_USER";
 export const SEARCH_USER = "SEARCH_USER";
 export const AUTH_USER = "AUTH_USER";
 
-export const ADD_DEVICE = "ADD_DEVICE";
+export const ADD_PROJECT = "ADD_PROJECT";
+export const FETCH_USER_PROJECTS = "FETCH_USER_PROJECTS";
 export const FETCH_DEVICES = "FETCH_DEVICES";
 export const UPDATE_DEVICE = "UPDATE_DEVICE";
 export const DELETE_DEVICE = "DELETE_DEVICE";

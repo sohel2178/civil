@@ -63,8 +63,6 @@ const LoginPage = (props) => {
   const classes = useStyle();
 
   const handleLogin = (e) => {
-    console.log(EmailValidator.validate("sohel.ahmed2178@gmail.com"));
-    console.log(user);
     if (user.email === "") {
       setErr({
         error: true,

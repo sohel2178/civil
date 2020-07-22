@@ -15,7 +15,7 @@ const useStyles = makeStyles((thene) => ({
 const WebAppBar = ({ menuClick, selected }) => {
   const classes = useStyles();
   return (
-    <AppBar>
+    <AppBar position="static">
       <Toolbar>
         <IconButton onClick={menuClick}>
           <Menu style={{ color: "#fff" }} />

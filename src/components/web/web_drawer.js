@@ -37,7 +37,6 @@ const WebDrawer = ({
   handleItemClick,
   selected,
 }) => {
-  console.log(authUser, "Auth User");
   const classes = useStyle();
   return (
     <Drawer anchor="left" open={open} onClose={handleClose}>
