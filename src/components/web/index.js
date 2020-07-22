@@ -16,6 +16,7 @@ import FinancePage from "./projects/finance";
 const WebPage = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectItem, setSelectedItem] = useState(0);
+  const [title, setTitle] = useState("Project List");
 
   const stopListener = (listener) => listener();
 
@@ -49,14 +50,14 @@ const WebPage = (props) => {
       case 1:
         return <ProfilePage />;
       case 2:
-        return <FinancePage />;
+        return <FinancePage setTitle={setTitle} />;
       default:
         return <UserProjectsPage />;
     }
   };
   return (
     <div style={{ display: "flex", flexFlow: "column", height: "100vh" }}>
-      <WebAppBar menuClick={menuClick} selected={selectItem} />
+      <WebAppBar menuClick={menuClick} selected={selectItem} title={title} />
       {props.authUser ? (
         <div style={{ flex: "1 1 auto" }}>{loadComponent()}</div>
       ) : null}
@@ -66,6 +67,7 @@ const WebPage = (props) => {
         authUser={props.authUser}
         handleItemClick={setSelectedItem}
         selected={selectItem}
+        setTitle={setTitle}
       />
     </div>
   );

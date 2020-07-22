@@ -25,7 +25,7 @@ import {
 } from "@material-ui/core";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="left" ref={ref} {...props} />;
+  return <Slide direction="right" ref={ref} {...props} />;
 });
 
 const useStyle = makeStyles((theme) => ({

@@ -5,6 +5,7 @@ export const UPDATE_USER = "UPDATE_USER";
 export const GET_USER = "GET_USER";
 export const SEARCH_USER = "SEARCH_USER";
 export const AUTH_USER = "AUTH_USER";
+export const CURRENT_PROJECT = "CURRENT_PROJECT";
 
 export const ADD_PROJECT = "ADD_PROJECT";
 export const FETCH_USER_PROJECTS = "FETCH_USER_PROJECTS";

@@ -36,8 +36,23 @@ const WebDrawer = ({
   authUser,
   handleItemClick,
   selected,
+  setTitle,
 }) => {
   const classes = useStyle();
+  const handleClick = (index) => {
+    handleItemClick(index);
+    switch (index) {
+      case 0:
+        setTitle("Project List");
+        break;
+
+      case 1:
+        setTitle("User Profile");
+        break;
+      default:
+        setTitle("Project List");
+    }
+  };
   return (
     <Drawer anchor="left" open={open} onClose={handleClose}>
       <Grid container direction="column" className={classes.drawer}>
@@ -64,7 +79,7 @@ const WebDrawer = ({
               button
               key={index}
               divider
-              onClick={() => handleItemClick(index)}
+              onClick={() => handleClick(index)}
               selected={selected === index}
             >
               <ListItemIcon>{<item.icon color="primary" />}</ListItemIcon>

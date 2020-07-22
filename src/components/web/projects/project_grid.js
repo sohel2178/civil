@@ -1,18 +1,6 @@
 import React, { useRef } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 
-import {
-  CardHeader,
-  Card,
-  CardContent,
-  CardActions,
-  Avatar,
-  Grid as SGrid,
-  Typography,
-  Divider,
-  Fab,
-  Button,
-} from "@material-ui/core";
+import ProjectCard from "./item_project";
 
 import {
   Grid,
@@ -21,114 +9,7 @@ import {
   CellMeasurerCache,
 } from "react-virtualized";
 
-const useStyle = makeStyles((theme) => ({
-  root: {
-    maxWidth: "100%",
-    minWidth: "95%",
-    marginLeft: "5%",
-    marginRight: "5%",
-    marginTop: "2%",
-  },
-  avatar: {
-    backgroundColor: theme.palette.secondary.main,
-  },
-  typo: {
-    fontSize: "0.9rem",
-    padding: 4,
-  },
-  fab: {
-    marginRight: 8,
-  },
-}));
-
 // const date = new Date().toISOString()
-
-const ProjectCard = ({ project, setSelected }) => {
-  const classes = useStyle();
-
-  return (
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="driver_photo" className={classes.avatar}>
-            P
-          </Avatar>
-        }
-        title={project.name}
-        subheader={"Created at " + new Date(project.created_at).toDateString()}
-      />
-      <Divider />
-
-      <CardContent>
-        <SGrid container direction="column">
-          <SGrid item container justify="space-between">
-            <Typography className={classes.typo}>Start Date</Typography>
-            <Typography className={classes.typo}>
-              {new Date(project.start_date).toDateString()}
-            </Typography>
-          </SGrid>
-
-          <SGrid item container justify="space-between">
-            <Typography className={classes.typo}>Completion Date</Typography>
-            <Typography className={classes.typo}>
-              {new Date(project.completion_date).toDateString()}
-            </Typography>
-          </SGrid>
-
-          <SGrid item container justify="space-between">
-            <Typography className={classes.typo}>Project Location</Typography>
-            <Typography className={classes.typo}>{project.location}</Typography>
-          </SGrid>
-
-          <SGrid item container justify="space-between">
-            <Typography className={classes.typo}>
-              Project Description
-            </Typography>
-            <Typography className={classes.typo}>
-              {project.description}
-            </Typography>
-          </SGrid>
-        </SGrid>
-      </CardContent>
-      <Divider />
-      <CardActions>
-        <SGrid container direction="column">
-          <SGrid item container justify="center">
-            <Fab color="secondary" size="small" className={classes.fab} />
-            <Fab color="secondary" size="small" className={classes.fab} />
-            <Fab color="secondary" size="small" className={classes.fab} />
-            <Fab color="secondary" size="small" className={classes.fab} />
-          </SGrid>
-          <Typography
-            variant="body1"
-            style={{ textAlign: "center", padding: 8 }}
-          >
-            Actions
-          </Typography>
-
-          <SGrid item container justify="space-between">
-            <Button variant="outlined" style={{ fontSize: "0.7rem" }}>
-              Task
-            </Button>
-            <Button
-              variant="outlined"
-              style={{ fontSize: "0.7rem" }}
-              onClick={() => setSelected(2)}
-            >
-              FINANCE
-            </Button>
-            <Button variant="outlined" style={{ fontSize: "0.7rem" }}>
-              STOTE
-            </Button>
-            <Button variant="outlined" style={{ fontSize: "0.7rem" }}>
-              EMPLOYEE
-            </Button>
-          </SGrid>
-        </SGrid>
-      </CardActions>
-    </Card>
-  );
-};
 
 const ProjectGrid = ({ projects, setSelected }) => {
   const cache = useRef(
@@ -141,7 +22,7 @@ const ProjectGrid = ({ projects, setSelected }) => {
   return (
     <div
       style={{
-        width: "90%",
+        width: "100%",
         height: "100%",
       }}
     >

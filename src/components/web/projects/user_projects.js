@@ -43,18 +43,6 @@ const UserProjectsPage = (props) => {
       <Grid
         item
         container
-        xs={11}
-        className={classes.leftContainer}
-        justify="flex-end"
-      >
-        <ProjectGrid
-          projects={props.userProjects}
-          setSelected={props.setSelected}
-        />
-      </Grid>
-      <Grid
-        item
-        container
         xs={1}
         className={classes.rightContainer}
         direction="column"
@@ -73,6 +61,19 @@ const UserProjectsPage = (props) => {
             <Add />
           </Fab>
         </Grid>
+      </Grid>
+
+      <Grid
+        item
+        container
+        xs={11}
+        className={classes.leftContainer}
+        justify="flex-end"
+      >
+        <ProjectGrid
+          projects={props.userProjects}
+          setSelected={props.setSelected}
+        />
       </Grid>
 
       <DialogAddProject
