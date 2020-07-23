@@ -1,33 +1,33 @@
 import {
-  PROJECT_ACCOUNTS,
-  ADD_ACCOUNT,
-  UPDATE_ACCOUNT,
-  DELETE_ACCOUNT,
+  PROJECT_TRANSACTION,
+  ADD_TRANSACTION,
+  UPDATE_TRANSACTION,
+  DELETE_TRANSACTION,
 } from "../utils/types";
 import { PROJECTS_URL } from "../utils/url";
 import axios from "axios";
 
-const projectAccountsAction = (data) => {
-  return { type: PROJECT_ACCOUNTS, payload: data };
+const projectTransactionsAction = (data) => {
+  return { type: PROJECT_TRANSACTION, payload: data };
 };
 
-const addAccountAction = (data) => {
-  return { type: ADD_ACCOUNT, payload: data };
+const addTransactionAction = (data) => {
+  return { type: ADD_TRANSACTION, payload: data };
 };
 
-const updateAccountAction = (newData, oldData) => {
+const updateTransactionAction = (newData, oldData) => {
   return {
-    type: UPDATE_ACCOUNT,
+    type: UPDATE_TRANSACTION,
     payload: { newData: newData, oldData: oldData },
   };
 };
 
-const deleteAccountAction = (data) => {
-  return { type: DELETE_ACCOUNT, payload: data };
+const deleteTransactionAction = (data) => {
+  return { type: DELETE_TRANSACTION, payload: data };
 };
 
-export const getProjectAccounts = (projectId, firebase) => {
-  const url = PROJECTS_URL + projectId + "/accounts";
+export const getProjectTransactions = (projectId, firebase) => {
+  const url = PROJECTS_URL + projectId + "/transactions/";
   return (dispatch) => {
     firebase.idToken().then((idToken) => {
       axios
@@ -35,7 +35,7 @@ export const getProjectAccounts = (projectId, firebase) => {
           headers: { Authorization: "Bearer " + idToken },
         })
         .then((response) => {
-          dispatch(projectAccountsAction(response.data));
+          dispatch(projectTransactionsAction(response.data));
         })
         .catch((err) => {
           throw err;
@@ -44,8 +44,8 @@ export const getProjectAccounts = (projectId, firebase) => {
   };
 };
 
-export const addAccount = (account, firebase, successCallback) => {
-  const url = PROJECTS_URL + account.project + "/accounts";
+export const addTransaction = (account, firebase, successCallback) => {
+  const url = PROJECTS_URL + account.project + "/transactions/";
 
   return (dispatch) => {
     firebase.idToken().then((idToken) => {
@@ -55,7 +55,7 @@ export const addAccount = (account, firebase, successCallback) => {
         })
         .then((response) => {
           successCallback();
-          dispatch(addAccountAction(response.data));
+          dispatch(addTransactionAction(response.data));
         })
         .catch((err) => {
           throw err;
@@ -64,8 +64,8 @@ export const addAccount = (account, firebase, successCallback) => {
   };
 };
 
-export const updateAccount = (firebase, newData, oldData, resolve) => {
-  const url = PROJECTS_URL + newData.project + "/accounts/";
+export const updateTransaction = (firebase, newData, oldData, resolve) => {
+  const url = PROJECTS_URL + newData.project + "/transactions/";
 
   return (dispatch) => {
     firebase.idToken().then((idToken) => {
@@ -75,7 +75,7 @@ export const updateAccount = (firebase, newData, oldData, resolve) => {
         })
         .then((response) => {
           resolve();
-          dispatch(updateAccountAction(newData, oldData));
+          dispatch(updateTransactionAction(newData, oldData));
         })
         .catch((err) => {
           resolve();
@@ -85,8 +85,8 @@ export const updateAccount = (firebase, newData, oldData, resolve) => {
   };
 };
 
-export const deleteAccount = (firebase, account, resolve) => {
-  const url = PROJECTS_URL + account.project + "/accounts/";
+export const deleteTransaction = (firebase, account, resolve) => {
+  const url = PROJECTS_URL + account.project + "/transactions/";
 
   return (dispatch) => {
     firebase.idToken().then((idToken) => {
@@ -96,7 +96,7 @@ export const deleteAccount = (firebase, account, resolve) => {
         })
         .then((response) => {
           resolve();
-          dispatch(deleteAccountAction(account));
+          dispatch(deleteTransactionAction(account));
         })
         .catch((err) => {
           resolve();
